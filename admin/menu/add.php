@@ -18,18 +18,18 @@ include_once( "../menu.php" ); ?>
 <div id='main_container'>
 
 	<?php
-		if( isset( $_POST["target"] ) && isset( $_POST["title"] ) ) {
+		if( isset( $_POST["target"] ) && isset( $_POST["title"] ) && isset( $_POST["group"] ) ) {
 			echo $_POST["target"].'<br/>';
 			if( $_POST["target"] == "direct" ) {
 				if( isset( $_POST["link"] ) ) {
 					echo $_POST["link"];
-					$query = "INSERT INTO menu(title, pageid, link) VALUES('".mysqli_real_escape_string( $con, $_POST["title"] )."',0,'" . mysqli_real_escape_string( $con, $_POST["link"] ) ."')";
+					$query = "INSERT INTO menu(title, pageid, link, menu_group) VALUES('".mysqli_real_escape_string( $con, $_POST["title"] )."',0,'" . mysqli_real_escape_string( $con, $_POST["link"] ) ."',".esc( $con, $_POST["group"]).")";
 					mysqli_query( $con, $query );
 					echo $query;
 					log_action( $con, "Menu Item Added", "Menu Item added " . print_r( $_POST, true ) );
 				}
 			} else {
-				$query = "INSERT INTO menu(title, pageid) VALUES('".mysqli_real_escape_string( $con, $_POST["title"] )."'," . mysqli_real_escape_string( $con, $_POST["target"] ) .")";
+				$query = "INSERT INTO menu(title, pageid, menu_group) VALUES('".mysqli_real_escape_string( $con, $_POST["title"] )."'," . mysqli_real_escape_string( $con, $_POST["target"] ) .",".esc($con, $_POST["group"]).")";
 				mysqli_query( $con, $query );
 				echo $query;
 				log_action( $con, "Menu Item Added", "Menu Item added " . print_r( $_POST, true ) );
@@ -46,6 +46,7 @@ include_once( "../menu.php" ); ?>
 			<?php include_once("options.php") ?>;
 		</select>
 		<div style='display: none;' id='link_box'><input type='text' name='link' /></div><br/>
+		Group: <input type='text' name='group' /><br/>
 		<input type='submit' value='Submit' />
 	</form>
 </div>

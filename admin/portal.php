@@ -17,10 +17,12 @@ $results = mysqli_query( $con, "SELECT * FROM pictures ORDER BY position ASC");
 	<div class='left_box'>
 		<div style='font-size: 20px;margin:5px;'> Actions: </div>
 		<a href='pages/'><div class='button'>Manage Pages</div></a>
+		<a href='stylesheets/'><div class='button'>Manage Stylesheets</div></a>
 		<a href='menu/'><div class='button'>Manage Menu</div></a>
 		<a href='pictures/'><div class='button'>Manage Gallery</div></a>
 		<div style='font-size: 20px;margin:5px;'> Advanced Actions: </div>
 		<a href='users/'><div class='button'>Manage Users</div></a>
+		<a href='scripts/'><div class='button'>Manage Scripts</div></a>
 	</div>
 	<div class='right_box'>
 		<a style='font-size: 20px;'>Action Log</a>

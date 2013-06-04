@@ -1,11 +1,11 @@
 <?php
 include_once( "../connect.php" );
 
-$results = mysqli_query( $con, "SELECT menu.id AS id, menu.title AS title, menu.pageid AS pageid, pages.title AS pagename, menu.link AS link FROM menu LEFT JOIN pages ON menu.pageid = pages.id ORDER BY menu.title ASC" );
+$results = mysqli_query( $con, "SELECT menu.menu_group AS menu_group, menu.id AS id, menu.title AS title, menu.pageid AS pageid, pages.title AS pagename, menu.link AS link FROM menu LEFT JOIN pages ON menu.pageid = pages.id ORDER BY menu.menu_group, menu.title ASC" );
 
 while( $row = mysqli_fetch_array( $results ) ) {
 	echo "<tr class='user_row' data-id='".$row['id']."'>";
-		echo "<td style='padding:5px;'><a class='id' data-id='".$row['id']."'>" . $row['id'] . "</a></td>";
+		echo "<td style='padding:5px;'><a class='group' data-id='".$row['id']."'>" . $row['menu_group'] . "</a></td>";
 		echo "<td><a class='title' data-id='".$row['id']."'>" . $row['title'] . "</a></td>";
 		if( $row['pageid'] != 0 ) {
 			echo "<td>Page</td>";

@@ -21,4 +21,16 @@ function echo_menu( $con ) {
 	echo "</ul>";
 }
 
+function echo_menu_group( $con, $group ) {
+	echo "<ul>";
+	$results = mysqli_query( $con, "SELECT * FROM menu WHERE menu_group=" . $group );
+	while( $row = mysqli_fetch_array( $results ) ) {
+		echo "<li>";
+		echo "<a href=" . ($row['pageid'] == 0?$row['link']:"index.php?page=".$row['pageid']) . ">" . $row['title'] . "</a>";
+		echo "</li>";
+	}
+	echo "</ul>";
+}
+
+
 ?>
