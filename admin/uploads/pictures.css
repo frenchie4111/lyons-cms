@@ -1,0 +1,41 @@
+body
+{
+	background-color: #FFFFFF;
+	font-family: 'Shanti', sans-serif;
+}
+#header
+{
+	text-align: center;
+	font-size: 30px;
+	margin: 5px;
+}
+#bottom_button_container
+{
+	height: 38px;
+	width: 100%;
+}
+.picture_thumb
+{
+	width: 100px;
+	height: 100px;
+}
+.image_td
+{
+	width: 100px;
+	text-align: left;
+}
+.id_td
+{
+	width: 20px;
+	text-align: left;
+}
+.remove_td
+{
+	width: 120px;
+	text-align: left;
+}
+.move_buttons_td
+{
+	width: 100px;
+	text-align: center;
+}

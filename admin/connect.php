@@ -11,10 +11,20 @@ function esc( $con, $str ) {
 	return mysqli_real_escape_string( $con, $str );
 }
 
+function get_level( $con ) {
+
+	$row = mysqli_fetch_array( mysqli_query( $con, "SELECT access_level FROM users WHERE id=" . $_SESSION['id'] ) );
+	return $row['access_level'];
+}
+
 function add_picture( $con,  $picture_url, $description ) {
 	$row = mysqli_fetch_array( mysqli_query( $con, "SELECT * FROM pictures ORDER BY position DESC" ));
 	$query_add_picture = "INSERT INTO pictures(url,description, position) VALUES('" . $picture_url . "', '". $description ."', ". $row['position'] ."+1);";
 	mysqli_query($con, $query_add_picture);
+}
+function add_file( $con,  $url ) {
+	$query_add_file= "INSERT INTO uploads(url) VALUES('" . $url . "');";
+	mysqli_query($con, $query_add_file );
 }
 
 function check_user( $con, $username, $password ) {

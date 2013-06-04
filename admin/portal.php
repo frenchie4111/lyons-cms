@@ -14,12 +14,16 @@ $results = mysqli_query( $con, "SELECT * FROM pictures ORDER BY position ASC");
 	<script src="http://hodenfield.mikelyons.org/admin/main.js"></script>
 <?php include_once( "menu.php" ); ?>
 <div id='main_container'>
+	<?php
+		if( get_level( $con ) == 2 ) {
+	?>
 	<div class='left_box'>
 		<div style='font-size: 20px;margin:5px;'> Actions: </div>
 		<a href='pages/'><div class='button'>Manage Pages</div></a>
 		<a href='stylesheets/'><div class='button'>Manage Stylesheets</div></a>
 		<a href='menu/'><div class='button'>Manage Menu</div></a>
 		<a href='pictures/'><div class='button'>Manage Gallery</div></a>
+		<a href='uploads/'><div class='button'>Manage Uploads</div></a>
 		<div style='font-size: 20px;margin:5px;'> Advanced Actions: </div>
 		<a href='users/'><div class='button'>Manage Users</div></a>
 		<a href='scripts/'><div class='button'>Manage Scripts</div></a>
@@ -36,4 +40,13 @@ $results = mysqli_query( $con, "SELECT * FROM pictures ORDER BY position ASC");
 		</table>
 		<a href='log/'><div class='button'>View Full Log</div></a>
 	</div>
+	<?php
+	} else {
+	?>
+		<a href='pages/'><div class='button'>Edit Pages</div></a>
+		<a href='stylesheets/'><div class='button'>Edit Stylesheets</div></a>
+		<a href='pictures/'><div class='button'>Manage Gallery</div></a>
+	<?php
+	}
+	?>
 </div>

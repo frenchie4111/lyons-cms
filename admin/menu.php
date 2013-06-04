@@ -6,7 +6,11 @@
 		<?php
 		if( !isset($hide_buttons) ) {
 			if( isset($back) && $back != "" ) {
-				echo "<a class='button' href='". $back ."'>Back</a>";
+				echo "<a href='". $back ."'>";
+					echo "<div class='button menu_button' style='margin: 0px; padding: 7px;' class='button'>";;
+						echo "Back";
+					echo "</div>";
+				echo "</a>";
 			}
 		?>
 <!--

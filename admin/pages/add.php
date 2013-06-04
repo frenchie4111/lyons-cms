@@ -17,14 +17,17 @@ $back = "index.php";
 include_once( "../menu.php" ); ?>
 <div id='main_container'>
 <?php
-	if( isset( $_POST["title"] ) && isset( $_POST["content"] ) ) {
+	if( isset( $_POST["title"] ) && isset( $_POST["content"] ) && isset( $_POST["scripts"] ) && isset( $_POST["stylesheets"] ) ) {
 		if( $_POST["title"] != "" && $_POST["content"] != "" ) {
 			$title = mysql_real_escape_string( $_POST["title"] );
 			$content = mysql_real_escape_string( $_POST["content"] );
+			$scripts = esc( $con, $_POST['scripts'] );
+			$stylesheets = esc( $con, $_POST['stylesheets'] );
 
-			$query = "INSERT INTO pages( title, content ) VALUES( '" . $title . "', '". $content . "')";
+			$query = "INSERT INTO pages( title, content, scriptids, stylesheetids ) VALUES( '" . $title . "', '". $content . "', '".$scripts."', '".$stylesheets."')";
 			mysqli_query( $con, $query );
-			log_action( $con, "Page Added", "Page " . $title . " added with content: " . $content );
+			log_action( $con, "Page Added", "Page " . print_r( $_POST, true ) );
+			echo $query;
 			header( "Location: index.php" );
 		}
 		else {
@@ -36,7 +39,8 @@ include_once( "../menu.php" ); ?>
 			<a>Title: </a><input type='text' name='title' style='width: 500px;' /><br/>
 			<a>Content: </a><br/>
 			<textarea style='width:100%; height:500px;' name='content'></textarea>
-			<input type='submit' value='Submit' style='width: 300px;' />
+			<input type='submit' value='Submit' style='width: 300px;' /><br/>
+			Scripts: <input type='text' name='scripts' /> Stylesheets: <input type='text' name='stylesheets' />
 		</form>
 		<?php
 	}

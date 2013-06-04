@@ -1,50 +1,62 @@
 <!DOCTYPE html>
 <html>
 <head>
+<?php
+	include_once( "connect.php" );
+?>
 	<link href='http://mikelyons.org/reset.css' rel='stylesheet' type='text/css'>
-
 	<link href='main.css' rel='stylesheet' type='text/css'>
-	<link href='css.php?id=1' rel='stylesheet' type='text/css'>
 
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/jquery-ui.min.js"></script>
-	<script src="js.php?id=1"></script>
+
+	<?php
+		$page = 8;
+		if( isset( $_GET["id"] ) ) {
+			$page = $_GET["id"];
+		}
+		echo_stylesheets_page( $con, $page );
+		echo_scripts_page( $con, $page );
+	?>
 </head>
 <body>
 	<div id="header">
 		<div class="content">
-			<a id="page_title">
-				Trudy Hodenfield
-			</a><br/>
-			<a id="page_title_sub">
-				Design
-			</a>
+			<img src="http://hodenfield.mikelyons.org/uploads/logo.png" />
 		</div>
 	</div>
 	<div id="menu">
-		<div class="content">
+		<div class="content" style='width:1150px;'>
 			<div class="menu" id="left_menu">
-				Left Menu Items
+				<?php
+				echo_menu_group( $con, 1 );
+				?>
 			</div>
 			<div class="menu" id="right_menu">
-				Right Menu Items
+				<?php
+				echo_menu_group( $con, 2 );
+				?>
 			</div>
 			<div class="clearfix"></div>
 		</div>
 	</div>
 	<div id="content">
 		<div class="content">
-			<div class="left">
-				This is the left side content
-			</div>
-			<div class="right">
-				This is the right side content
-			</div>
-			<div class="clearfix"></div>
+			<?php
+				echo_page( $con, $page );			
+			?>
 		</div>
 	</div>
 	<div id="footer">
 		<div class="content">
+			<a>
+				Copywrite &copy; Trudy Hodenfield, 2013. All Rights Reserved.
+			</a>
+			<div style='float:right; display:inline-block;'>
+				<a>
+					Website created by <a href="http://mikelyons.org">Mike Lyons</a>
+				</a>
+			</div>
 		</div>
 	</div>
 </body>
