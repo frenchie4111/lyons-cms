@@ -1,61 +1,72 @@
 <?php
 $con = mysqli_connect('127.0.0.1', "root", "mike9", "hodenfield");
+if( !isset( $open ) ) {
+		if( !check_session( $con ) ) {
+			header( "Location: http://". $_SERVER['HTTP_HOST'] . "/admin/index.php" );
+			echo "Not logged on";		
+		}
+}
 
 function esc( $con, $str ) {
 	return mysqli_real_escape_string( $con, $str );
 }
 
-function echo_page( $con, $id ) {
-	$row = mysqli_fetch_array( mysqli_query( $con, "SELECT * FROM pages WHERE id=". esc( $con, $id ) ) );
-	echo $row['content'];
+function get_level( $con ) {
+
+	$row = mysqli_fetch_array( mysqli_query( $con, "SELECT access_level FROM users WHERE id=" . $_SESSION['id'] ) );
+	return $row['access_level'];
 }
 
-function echo_menu( $con ) {
-	echo "<ul>";
-	$results = mysqli_query( $con, "SELECT * FROM menu" );
-	while( $row = mysqli_fetch_array( $results ) ) {
-		echo "<li>";
-		echo "<a href=" . ($row['pageid'] == 0?$row['link']:"index.php?id=".$row['pageid']) . ">" . $row['title'] . "</a>";
-		echo "</li>";
-	}
-	echo "</ul>";
+function add_picture( $con,  $picture_url, $description ) {
+	$row = mysqli_fetch_array( mysqli_query( $con, "SELECT * FROM pictures ORDER BY position DESC" ));
+	$query_add_picture = "INSERT INTO pictures(url,description, position) VALUES('" . $picture_url . "', '". $description ."', ". $row['position'] ."+1);";
+	mysqli_query($con, $query_add_picture);
+}
+function add_file( $con,  $url ) {
+	$query_add_file= "INSERT INTO uploads(url) VALUES('" . $url . "');";
+	mysqli_query($con, $query_add_file );
 }
 
-function echo_menu_group( $con, $group, $page ) {
-	echo "<ul>";
-	$results = mysqli_query( $con, "SELECT * FROM menu WHERE menu_group=" . $group );
-	$row = mysqli_fetch_array( $results );
-	while( $row ) {
-		$nextrow = mysqli_fetch_array( $results );
-		echo "<li>";
-		if( $row['pageid'] == $page ) {
-			echo "<a href=" . ($row['pageid'] == 0?$row['link']:"index.php?id=".$row['pageid']) . " class='italics'>" . $row['title'] . "</a>";
-		} else {
-			echo "<a href=" . ($row['pageid'] == 0?$row['link']:"index.php?id=".$row['pageid']) . ">" . $row['title'] . "</a>";
-		}
-		if( $nextrow ) {
-			echo " | "; // TODO this needs a picture
-		}
-		echo "</li>";
-		$row = $nextrow;
+function check_user( $con, $username, $password ) {
+	$result = mysqli_query( $con, "SELECT * FROM users WHERE username='" . mysqli_real_escape_string($con, $username) . "'" );
+	if( !$result ) {
+		echo "User Not Found";
+		return false;
 	}
-	echo "</ul>";
+	$row = mysqli_fetch_array( $result );
+	if( $row['password'] == $password ) {
+		return $row['id'];
+	}
+	return false;
 }
 
-function echo_stylesheets_page( $con, $pageid ) {
-	$page_row = mysqli_fetch_array( mysqli_query( $con, "SELECT * FROM pages WHERE id=" . $pageid ) );
-	$stylesheets = split( ",", $page_row['stylesheetids'] );
-	foreach( $stylesheets as $stylesheet ) {
-		echo "<link href='css.php?id=".$stylesheet."' rel='stylesheet' type='text/css'>";
-	}
-}
-function echo_scripts_page( $con, $pageid ) {
-	$page_row = mysqli_fetch_array( mysqli_query( $con, "SELECT * FROM pages WHERE id=" . $pageid ) );
-	$scripts = split( ",", $page_row['scriptids'] );
-	foreach( $scripts as $script ) {
-		echo "<script src='js.php?id=".$script."'></script>";
+function check_session( $con ) {
+	session_start();
+	if( isset( $_SESSION['username'] ) && isset( $_SESSION['password'] ) ) {
+		return check_user( $con, $_SESSION['username'], $_SESSION['password'] );
+	} else {
+		return false;
 	}
 }
 
+function start_session( $id, $username, $password ) {
+	session_start();
+	$_SESSION['id'] = $id;
+	$_SESSION['username'] = $username;
+	$_SESSION['password'] = $password;
+}
+
+function logout() {
+	session_start();
+	session_destroy();
+}
+
+function log_action( $con, $title, $description ) {
+	if( check_session( $con ) ) {
+		session_start();
+		$query = "INSERT INTO log(userid, title, description) VALUES( ". $_SESSION['id'] .", '". mysqli_real_escape_string( $con, $title ) ."', '". mysqli_real_escape_string( $con, $description ) . "')";	
+		mysqli_query( $con, $query );
+	}
+}
 
 ?>

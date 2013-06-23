@@ -1,67 +1,42 @@
-<!DOCTYPE html>
-<html>
-<head>
 <?php
-	include_once( "connect.php" );
+$open = true;
+include_once("connect.php");
+if( check_session( $con ) ) {
+	header( "Location: portal.php" );
+}
+if( isset( $_POST['username'] ) && isset( $_POST['password'] ) ) {
+	$ret = check_user( $con, $_POST['username'], md5( $_POST['password'] ) );
+	if( $ret ) {
+		start_session( $ret, $_POST['username'], md5( $_POST['password'] ) );
+		header( "Location: portal.php" );
+	}
+}
+$results = mysqli_query( $con, "SELECT * FROM pictures ORDER BY position ASC");
 ?>
 	<link href='http://mikelyons.org/reset.css' rel='stylesheet' type='text/css'>
-	<link href='main.css' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Shanti' rel='stylesheet' type='text/css'>
+
+	<link href='http://hodenfield.mikelyons.org/admin/main.css' rel='stylesheet' type='text/css'>
+	<link href='http://hodenfield.mikelyons.org/admin/pictures/pictures.css' rel='stylesheet' type='text/css'>
 
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/jquery-ui.min.js"></script>
 
-	<?php
-		$page = 8;
-		if( isset( $_GET["id"] ) ) {
-			$page = $_GET["id"];
-		}
-		echo_stylesheets_page( $con, $page );
-		echo_scripts_page( $con, $page );
-	?>
-</head>
-<body>
-	<div id="header">
-		<div class="content">
-			<a href="index.php">
-				<img src="http://hodenfield.mikelyons.org/uploads/logo.png" />
-			</a>
+<?php 
+$hide_buttons = true;
+include_once( "menu.php" ); ?>
+<div id='main_container' style='text-align: center;'>
+	<form method='post' action='index.php'>
+		<div class='content'>
+			<table style='margin: 0px auto;'>
+				<tr>
+					<td>Username:</td> <td><input type='text' name='username' /></td>
+				</tr>
+				<tr>
+					<td>Password:</td> <td><input type='password' name='password' /></td>
+				</tr>
+			</table>
 		</div>
-	</div>
-	<div id="menubar"></div>
-	<div id="menu">
-		<div class="content" style='width:1150px;'>
-			<div class="menu" id="left_menu">
-				<?php
-				echo_menu_group( $con, 1, $page );
-				?>
-			</div>
-			<div class="menu" id="right_menu">
-				<?php
-				echo_menu_group( $con, 2, $page );
-				?>
-			</div>
-			<div class="clearfix"></div>
-		</div>
-	</div>
-	<div id="content">
-		<div class="content">
-			<?php
-				echo_page( $con, $page );			
-			?>
-		</div>
-	</div>
-	<div id="footerbar"></div>
-	<div id="footer">
-		<div class="content">
-			<a>
-				Copywrite &copy; Trudy Hodenfield, 2013. All Rights Reserved.
-			</a>
-			<div style='float:right; display:inline-block;'>
-				<a>
-					Website created by <a href="http://mikelyons.org">Mike Lyons</a>
-				</a>
-			</div>
-		</div>
-	</div>
-</body>
-</html>
+		<input style='width: 200px;' type='submit' value ='Login' />
+	</form>
+</div>
