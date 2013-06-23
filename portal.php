@@ -10,7 +10,7 @@ $results = mysqli_query( $con, "SELECT * FROM pictures ORDER BY position ASC");
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/jquery-ui.min.js"></script>
 
-	<script src="http://hodenfield.mikelyons.org/admin/main.js"></script>
+	<script src="main.js"></script>
 <?php include_once( "menu.php" ); ?>
 <div id='main_container'>
 	<?php
