@@ -1,5 +1,5 @@
 <?php
-$con = mysqli_connect('127.0.0.1', "root", "mike9", "hodenfield");
+$con = mysqli_connect('127.0.0.1', "root", "mike9", "cms");
 if( !isset( $open ) ) {
 		if( !check_session( $con ) ) {
 			header( "Location: http://". $_SERVER['HTTP_HOST'] . "/admin/index.php" );

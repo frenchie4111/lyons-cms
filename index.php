@@ -26,7 +26,6 @@ $results = mysqli_query( $con, "SELECT * FROM pictures ORDER BY position ASC");
 $hide_buttons = true;
 include_once( "menu.php" ); ?>
 <div id='main_container' style='text-align: center;'>
-	Text
 	<form method='post' action='index.php'>
 		<div class='content'>
 			<table style='margin: 0px auto;'>
