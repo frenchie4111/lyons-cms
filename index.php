@@ -22,19 +22,22 @@
 <body>
 	<div id="header">
 		<div class="content">
-			<img src="http://hodenfield.mikelyons.org/uploads/logo.png" />
+			<a href="index.php">
+				<img src="http://hodenfield.mikelyons.org/uploads/logo.png" />
+			</a>
 		</div>
 	</div>
+	<div id="menubar"></div>
 	<div id="menu">
 		<div class="content" style='width:1150px;'>
 			<div class="menu" id="left_menu">
 				<?php
-				echo_menu_group( $con, 1 );
+				echo_menu_group( $con, 1, $page );
 				?>
 			</div>
 			<div class="menu" id="right_menu">
 				<?php
-				echo_menu_group( $con, 2 );
+				echo_menu_group( $con, 2, $page );
 				?>
 			</div>
 			<div class="clearfix"></div>
@@ -47,6 +50,7 @@
 			?>
 		</div>
 	</div>
+	<div id="footerbar"></div>
 	<div id="footer">
 		<div class="content">
 			<a>

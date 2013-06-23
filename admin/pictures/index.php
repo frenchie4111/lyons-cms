@@ -29,19 +29,6 @@ $results = mysqli_query( $con, "SELECT * FROM pictures ORDER BY position ASC");
 		<tbody id='pictures_container'>
 
 		</tbody>
-		<tfoot>
-			<tr class='no_hover'>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td>
-				</td>
-			</tr>
-		</tfoot>
 	</table>
-		<a href="upload.php">
-		<div class='button'>
-			<a>Add a picture</a>
-		</div>
-		</a>
+	<a href="upload.php"><div class='button'>Add a picture</div></a>
 </div>

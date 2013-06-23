@@ -21,14 +21,18 @@ function echo_menu( $con ) {
 	echo "</ul>";
 }
 
-function echo_menu_group( $con, $group ) {
+function echo_menu_group( $con, $group, $page ) {
 	echo "<ul>";
 	$results = mysqli_query( $con, "SELECT * FROM menu WHERE menu_group=" . $group );
 	$row = mysqli_fetch_array( $results );
 	while( $row ) {
 		$nextrow = mysqli_fetch_array( $results );
 		echo "<li>";
-		echo "<a href=" . ($row['pageid'] == 0?$row['link']:"index.php?id=".$row['pageid']) . ">" . $row['title'] . "</a>";
+		if( $row['pageid'] == $page ) {
+			echo "<a href=" . ($row['pageid'] == 0?$row['link']:"index.php?id=".$row['pageid']) . " class='italics'>" . $row['title'] . "</a>";
+		} else {
+			echo "<a href=" . ($row['pageid'] == 0?$row['link']:"index.php?id=".$row['pageid']) . ">" . $row['title'] . "</a>";
+		}
 		if( $nextrow ) {
 			echo " | "; // TODO this needs a picture
 		}
